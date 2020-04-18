@@ -1,0 +1,24 @@
+import ru.helpfulproduciton.rates.Deps
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        
+    }
+    dependencies {
+        classpath Deps.Plugins.gradle
+        classpath Deps.Plugins.kotlinGradle
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

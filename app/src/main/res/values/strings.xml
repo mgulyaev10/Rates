@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Rates</string>
+
+    <!--NOT TRANSLATED STRINGS-->
+    <string name="euro">Euro</string>
+    <string name="australian_dollar">Australian Dollar</string>
+    <string name="bulgarian_lev">Bulgarian Lev</string>
+    <string name="brazilian_real">Brazilian Real</string>
+    <string name="canadian_dollar">Canadian Dollar</string>
+    <string name="swiss_franc">Swiss Franc</string>
+    <string name="chinese_yuan">Chinese Yuan</string>
+    <string name="czech_koruna">Czech Koruna</string>
+    <string name="danish_krone">Danish Krone</string>
+    <string name="pound_sterling">Pound sterling</string>
+    <string name="hong_kong_dollar">Hong Kong Dollar</string>
+    <string name="croatian_kuna">Croatian Kuna</string>
+    <string name="hungarian_forint">Hungarian Forint</string>
+    <string name="indonesian_rupiah">Indonesian Rupiah</string>
+    <string name="israeli_new_shekel">Israeli New Shekel</string>
+    <string name="indian_rupee">Indian Rupee</string>
+    <string name="icelandic_króna">Icelandic Króna</string>
+    <string name="japanese_yen">Japanese Yen</string>
+    <string name="south_korean">South Korean</string>
+    <string name="mexican_peso">Mexican Peso</string>
+    <string name="malaysian_ringgit">Malaysian Ringgit</string>
+    <string name="norwegian_krone">Norwegian Krone</string>
+    <string name="new_zealand_dollar">New Zealand Dollar</string>
+    <string name="philippine_peso">Philippine peso</string>
+    <string name="poland_zloty">Poland złoty</string>
+    <string name="romanian_leu">Romanian Leu</string>
+    <string name="russian_ruble">Russian Ruble</string>
+    <string name="swedish_krona">Swedish Krona</string>
+    <string name="singapore_dollar">Singapore Dollar</string>
+    <string name="thai_baht">Thai Baht</string>
+    <string name="us_dollar">US Dollar</string>
+    <string name="south_african_rand">South African Rand</string>
+
+</resources>
