@@ -8,7 +8,8 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatEditText
-import ru.helpfulproduction.rates.utils.KeyboardUtils
+import androidx.core.content.ContextCompat
+import ru.helpfulproduction.rates.R
 import ru.helpfulproduction.rates.utils.SimpleTextWatcher
 
 class AmountEditText: AppCompatEditText {
@@ -19,22 +20,24 @@ class AmountEditText: AppCompatEditText {
     init {
         imeOptions = IME_OPTIONS
         inputType = INPUT_TYPE
-        setOnFocusChangeListener { v, _ ->
-            KeyboardUtils.hideKeyboard(v)
-        }
         addTextChangedListener(object: SimpleTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 checkCorrectInput(s)
+                recolorText(s)
+                moveCursorToEndIfNeed()
             }
         })
+    }
+
+    fun requestFocusImpl() {
+        requestFocus()
+        moveCursorToEndImpl()
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         super.onTouchEvent(event)
-        if (text?.length == 1) {
-            setSelection(1)
-        }
+        moveCursorToEndIfNeed()
         return true
     }
 
@@ -44,6 +47,31 @@ class AmountEditText: AppCompatEditText {
         } else if (s?.first() == '0' && s.length > 1) {
             s.delete(0, 1)
         }
+    }
+
+    private fun recolorText(s: Editable?) {
+        val textColor = if (isZero(s)) {
+            R.color.color_inactive
+        } else {
+            R.color.black
+        }
+        setTextColor(ContextCompat.getColor(context, textColor))
+    }
+
+    private fun moveCursorToEndIfNeed() {
+        if (isZero(text)) {
+            moveCursorToEndImpl()
+        }
+    }
+
+    private fun moveCursorToEndImpl() {
+        text?.length?.let { length ->
+            setSelection(length)
+        }
+    }
+
+    private fun isZero(text: Editable?): Boolean {
+        return text?.toString() == "0"
     }
 
     companion object {

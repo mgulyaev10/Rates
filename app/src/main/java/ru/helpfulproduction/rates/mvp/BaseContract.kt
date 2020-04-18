@@ -4,7 +4,9 @@ import android.content.Context
 
 interface BaseContract {
 
-    interface Presenter
+    interface Presenter {
+        fun onDestroyView()
+    }
 
     interface View<P: Presenter> {
         var presenter: P?
