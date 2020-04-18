@@ -1,6 +1,4 @@
-package ru.helpfulproduction.rates
-
-import ru.helpfulproduction.rates.mvp.BaseContract
+package ru.helpfulproduction.rates.mvp
 
 interface RatesContract {
     interface Presenter: BaseContract.Presenter

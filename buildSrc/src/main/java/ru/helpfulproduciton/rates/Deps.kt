@@ -13,13 +13,16 @@ object Deps {
     }
 
     object Versions {
+        const val gradle = "3.6.2"
+        const val kotlin = "1.3.61"
+
         const val constraintLayout = "1.1.3"
         const val coordinatorLayout = "1.1.0"
         const val recyclerView = "1.1.0"
 
-        const val gradle = "3.6.2"
-        const val kotlin = "1.3.61"
         const val material = "1.1.0"
+        const val rxJava = "3.0.0"
+        const val rxAndroid = "3.0.0"
     }
 
     object LibrariesSupport {
@@ -31,6 +34,8 @@ object Deps {
     object Libraries {
         const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
         const val material = "com.google.android.material:material:${Versions.material}"
+        const val rxJava = "io.reactivex.rxjava3:rxjava:${Versions.rxJava}"
+        const val rxAndroid = "io.reactivex.rxjava3:rxandroid:${Versions.rxAndroid}"
     }
 
     object Plugins {

@@ -32,9 +32,12 @@ android {
 }
 
 dependencies {
-    implementation Deps.Libraries.kotlin
-    implementation Deps.Libraries.material
     implementation Deps.LibrariesSupport.constraintLayout
     implementation Deps.LibrariesSupport.coordinatorLayout
     implementation Deps.LibrariesSupport.recyclerView
+
+    implementation Deps.Libraries.kotlin
+    implementation Deps.Libraries.material
+    implementation Deps.Libraries.rxJava
+    implementation Deps.Libraries.rxAndroid
 }

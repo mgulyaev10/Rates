@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.helpfulproduction.rates.R
-import ru.helpfulproduction.rates.RatesContract
-import ru.helpfulproduction.rates.RatesPresenter
+import ru.helpfulproduction.rates.mvp.RatesContract
+import ru.helpfulproduction.rates.core.RatesPresenter
 import ru.helpfulproduction.rates.currency.CurrenciesAdapter
 import ru.helpfulproduction.rates.mvp.BaseMvpFragment
 
