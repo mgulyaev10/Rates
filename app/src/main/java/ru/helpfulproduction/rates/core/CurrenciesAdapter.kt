@@ -1,5 +1,6 @@
 package ru.helpfulproduction.rates.core
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,10 +8,10 @@ import ru.helpfulproduction.rates.currency.CurrencyHelper
 import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.extensions.setItemAsFirst
 import ru.helpfulproduction.rates.CurrencyHolderEventsListener
+import ru.helpfulproduction.rates.extensions.isZero
 import ru.helpfulproduction.rates.ui.holders.CurrencyHolder
 import ru.helpfulproduction.rates.ui.views.AmountEditText
 import ru.helpfulproduction.rates.utils.KeyboardUtils
-import kotlin.math.sign
 
 class CurrenciesAdapter(
     private var mainCurrency: CurrencyItem,
@@ -31,7 +32,7 @@ class CurrenciesAdapter(
         }
 
         override fun onAmountUpdate(position: Int, amount: String) {
-            if (position > 0 || amount.isEmpty()) {
+            if (position > 0 || amount.isEmpty() || amount.toFloat().isZero() && mainCurrency.amount.isZero()) {
                 return
             }
             val mainCurrencyAmount = amount.toFloat()
@@ -45,7 +46,7 @@ class CurrenciesAdapter(
             val rate = rates[item.key] ?: 1F
             item.rate = rate
         }
-        if (sign(mainCurrency.amount) == 0F) {
+        if (mainCurrency.amount.isZero()) {
             return
         }
         recalculateItems()

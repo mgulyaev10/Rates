@@ -8,10 +8,11 @@ import ru.helpfulproduction.rates.recycler.base.BaseViewHolder
 import ru.helpfulproduction.rates.R
 import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.CurrencyHolderEventsListener
+import ru.helpfulproduction.rates.extensions.isZero
+import ru.helpfulproduction.rates.extensions.withoutFractionalPart
 import ru.helpfulproduction.rates.ui.views.AmountEditText
 import ru.helpfulproduction.rates.utils.KeyboardUtils
 import java.util.*
-import kotlin.math.sign
 
 class CurrencyHolder(
     view: View,
@@ -55,7 +56,7 @@ class CurrencyHolder(
     }
 
     fun bindMoney(amount: Float) {
-        val text = if (sign(amount) == 0F) {
+        val text = if (amount.isZero() || amount.withoutFractionalPart()) {
             amount.toInt().toString()
         } else {
             String.format(Locale.US, "%.2f", amount)

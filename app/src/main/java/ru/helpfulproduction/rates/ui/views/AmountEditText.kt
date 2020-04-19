@@ -56,10 +56,10 @@ class AmountEditText: AppCompatEditText {
     }
 
     private fun checkCorrectInput(s: Editable?) {
-        if (s?.isEmpty() == true) {
-            s.append('0')
-        } else if (s?.first() == '0' && s.length > 1) {
-            s.delete(0, 1)
+        if (isIncorrectInput(s)) {
+            s?.insert(0, "0")
+        } else if (isIntAndZeroFirst(s)) {
+            s?.delete(0, 1)
         }
     }
 
@@ -89,13 +89,19 @@ class AmountEditText: AppCompatEditText {
             isUserInput = true
             return
         }
-        if (!isZero(s)) {
-            amountUpdateListener?.onAmountUpdate(s?.toString()?.replace(",","."))
-        }
+        amountUpdateListener?.onAmountUpdate(s?.toString())
     }
 
     private fun isZero(text: Editable?): Boolean {
         return text?.toString() == "0"
+    }
+
+    private fun isIncorrectInput(text: Editable?): Boolean {
+        return (text?.isEmpty() == true || text?.first()?.isDigit() == false)
+    }
+
+    private fun isIntAndZeroFirst(text: Editable?): Boolean {
+        return text?.first() == '0' && text.length > 1 && !text.contains(".")
     }
 
     companion object {
