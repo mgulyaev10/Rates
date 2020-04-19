@@ -26,6 +26,14 @@ class CurrenciesAdapter(
         }
     }
 
+    fun updateRates(rates: Map<String, Float>) {
+        items.forEach { item ->
+            val rate = rates[item.key]
+            item.rate = rate
+        }
+        notifyItemRangeChanged(1, items.size - 1)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyHolder {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         return when (viewType) {

@@ -13,4 +13,8 @@ interface BaseContract {
         fun getContext(): Context?
     }
 
+    interface Model<P: Presenter> {
+        var presenter: P?
+    }
+
 }

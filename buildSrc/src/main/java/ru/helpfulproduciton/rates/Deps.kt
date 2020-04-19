@@ -10,6 +10,7 @@ object Deps {
         const val minSdk = 22
         const val targetSdk = 29
         const val buildTools = "29.0.3"
+        const val jvmTarget = "1.8"
     }
 
     object Versions {
@@ -23,6 +24,7 @@ object Deps {
         const val material = "1.1.0"
         const val rxJava = "3.0.0"
         const val rxAndroid = "3.0.0"
+        const val okHttp = "4.5.0"
     }
 
     object LibrariesSupport {
@@ -36,6 +38,7 @@ object Deps {
         const val material = "com.google.android.material:material:${Versions.material}"
         const val rxJava = "io.reactivex.rxjava3:rxjava:${Versions.rxJava}"
         const val rxAndroid = "io.reactivex.rxjava3:rxandroid:${Versions.rxAndroid}"
+        const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
     }
 
     object Plugins {

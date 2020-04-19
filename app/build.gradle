@@ -1,8 +1,10 @@
 import ru.helpfulproduciton.rates.Deps
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-android-extensions")
+}
 
 android {
     compileSdkVersion Deps.Config.compileSdk
@@ -24,11 +26,14 @@ android {
     }
 
     compileOptions {
-        java {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
-        }
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    kotlinOptions {
+        jvmTarget = Deps.Config.jvmTarget
+    }
+
 }
 
 dependencies {
@@ -40,4 +45,5 @@ dependencies {
     implementation Deps.Libraries.material
     implementation Deps.Libraries.rxJava
     implementation Deps.Libraries.rxAndroid
+    implementation Deps.Libraries.okHttp
 }

@@ -41,7 +41,7 @@ class RatesFragment: BaseMvpFragment<RatesContract.Presenter>(),
     private fun initViews(view: View) {
         recycler = view.findViewById<RecyclerView>(R.id.recycler).apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = presenter?.createAdapter()
+            adapter = presenter?.getCurrenciesAdapter()
         }
         title = view.findViewById(R.id.title)
         appbar = view.findViewById(R.id.appbar)
