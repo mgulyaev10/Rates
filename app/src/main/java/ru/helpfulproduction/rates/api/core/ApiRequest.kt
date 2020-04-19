@@ -38,7 +38,7 @@ abstract class ApiRequest<T: ApiResponse>(
             DEFAULT_SCHEME,
             DEFAULT_HOST,
             createPath(),
-            params
+            getParams()
         )
         return ApiManager.execute(method)
     }
@@ -46,6 +46,13 @@ abstract class ApiRequest<T: ApiResponse>(
     private fun createPath(): String {
         return DEFAULT_PATH.plus(method)
     }
+
+    private fun getParams(): Map<String, String> {
+        updateParams()
+        return params
+    }
+
+    open fun updateParams() {}
 
     abstract fun parse(body: String): T
 

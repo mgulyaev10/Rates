@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
+import ru.helpfulproduction.rates.AmountUpdateListener
 import ru.helpfulproduction.rates.R
 import ru.helpfulproduction.rates.utils.SimpleTextWatcher
 
@@ -16,6 +17,9 @@ class AmountEditText: AppCompatEditText {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+
+    private var amountUpdateListener: AmountUpdateListener? = null
+    private var isUserInput = true
 
     init {
         imeOptions = IME_OPTIONS
@@ -25,13 +29,23 @@ class AmountEditText: AppCompatEditText {
                 checkCorrectInput(s)
                 recolorText(s)
                 moveCursorToEndIfNeed()
+                notifyAmountChangedIfNeed(s)
             }
         })
+    }
+
+    fun setAmountUpdateListener(amountUpdateListener: AmountUpdateListener) {
+        this.amountUpdateListener = amountUpdateListener
     }
 
     fun requestFocusImpl() {
         requestFocus()
         moveCursorToEndImpl()
+    }
+
+    fun setTextImpl(text: CharSequence) {
+        isUserInput = false
+        setText(text)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -67,6 +81,16 @@ class AmountEditText: AppCompatEditText {
     private fun moveCursorToEndImpl() {
         text?.length?.let { length ->
             setSelection(length)
+        }
+    }
+
+    private fun notifyAmountChangedIfNeed(s: Editable?) {
+        if (!isUserInput) {
+            isUserInput = true
+            return
+        }
+        if (!isZero(s)) {
+            amountUpdateListener?.onAmountUpdate(s?.toString()?.replace(",","."))
         }
     }
 

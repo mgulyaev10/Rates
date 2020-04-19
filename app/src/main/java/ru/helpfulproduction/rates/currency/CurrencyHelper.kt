@@ -45,7 +45,9 @@ object CurrencyHelper {
     }
 
     fun from(@CurrencyKeys.CurrencyKey key: String): CurrencyItem {
-        return currencies[key] ?: error("Invalid key: $key")
+        return currencies[key].apply {
+            this?.rate = 1F
+        } ?: error("Invalid key: $key")
     }
 
     fun default(): CurrencyItem = currencies[CurrencyKeys.EUR_KEY] ?: error("There is no values")

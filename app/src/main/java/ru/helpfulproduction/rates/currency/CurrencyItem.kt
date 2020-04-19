@@ -10,7 +10,7 @@ class CurrencyItem(
     @StringRes val titleRes: Int,
     @DrawableRes val imageRes: Int,
     var amount: Float = 0F,
-    var rate: Float? = null
+    var rate: Float = 0F
 ): BaseItem() {
 
     override fun getViewType(): Int {

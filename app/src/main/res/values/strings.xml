@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Rates</string>
 
+    <string name="accessibility_retry">Перезагрузить</string>
+
     <!--NOT TRANSLATED STRINGS-->
     <string name="euro">Euro</string>
     <string name="australian_dollar">Australian Dollar</string>

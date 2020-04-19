@@ -1,23 +1,24 @@
 package ru.helpfulproduction.rates.core
 
 import ru.helpfulproduction.rates.utils.Preference
-import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.extensions.disposeOnDestroyOf
+import ru.helpfulproduction.rates.log.Tracker
 import ru.helpfulproduction.rates.mvp.RatesContract
 
 class RatesPresenter(
     private val view: RatesContract.View<RatesContract.Presenter>
-): RatesContract.Presenter, CurrencyChangeListener {
+): RatesContract.Presenter {
 
     private val model: RatesContract.Model<RatesContract.Presenter> = RatesModel(this)
-    private var mainCurrency: CurrencyItem = Preference.getMainCurrency(view.getContext())
-    private val currenciesAdapter = CurrenciesAdapter(mainCurrency, this)
+    private val currenciesAdapter = CurrenciesAdapter(model.getMainCurrency(view.getContext()), model)
 
     init {
-        model.loadRates(mainCurrency.key)
-            .subscribe {
+        model.loadRates()
+            .subscribe({
                 currenciesAdapter.updateRates(it.rates)
-            }
+            }, {
+                Tracker.logException(it)
+            })
             .disposeOnDestroyOf(view.getContext())
     }
 
@@ -26,12 +27,11 @@ class RatesPresenter(
     }
 
     override fun onDestroyView() {
-        Preference.setMainCurrency(view.getContext(), mainCurrency.key)
+        Preference.setMainCurrency(view.getContext(), model.getMainCurrency(view.getContext()).key)
     }
 
-    override fun onCurrencyChanged(newCurrency: CurrencyItem) {
+    override fun onCurrencyChanged() {
         view.scrollToTop()
-        mainCurrency = newCurrency
     }
 
 }

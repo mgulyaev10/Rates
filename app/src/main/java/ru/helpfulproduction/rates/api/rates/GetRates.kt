@@ -1,18 +1,18 @@
 package ru.helpfulproduction.rates.api.rates
 
 import org.json.JSONObject
+import ru.helpfulproduction.rates.MainCurrencyKeyProvider
 import ru.helpfulproduction.rates.api.core.ApiResponse
 import ru.helpfulproduction.rates.api.core.RepeatableApiRequest
 import ru.helpfulproduction.rates.currency.CurrencyKeys
 import java.util.concurrent.TimeUnit
 
 class GetRates(
-    @CurrencyKeys.CurrencyKey baseCurrencyKey: String
-): RepeatableApiRequest<GetRates.GetRatesResponse>(
-    PERIOD_REQUEST_MILLIS, "latest") {
+    private val mainCurrencyKeyProvider: MainCurrencyKeyProvider
+): RepeatableApiRequest<GetRates.GetRatesResponse> (PERIOD_REQUEST_MILLIS, "latest") {
 
     init {
-        param(PARAM_BASE_CURRENCY, baseCurrencyKey)
+        param(PARAM_BASE_CURRENCY, mainCurrencyKeyProvider.getMainCurrencyKey())
     }
 
     override fun parse(body: String): GetRatesResponse {
@@ -20,8 +20,8 @@ class GetRates(
             return GetRatesResponse.empty()
         }
         val json = JSONObject(body)
-        val baseCurrency = json.getString(KEY_BASE_CURRENCY)
-        val ratesJson = json.getJSONObject(KEY_RATES)
+        val baseCurrency = json.getString(JSON_KEY_BASE_CURRENCY)
+        val ratesJson = json.getJSONObject(JSON_KEY_RATES)
         val rates = HashMap<String, Float>()
         ratesJson.keys().forEach { key ->
             val value = ratesJson.getDouble(key).toFloat()
@@ -31,6 +31,10 @@ class GetRates(
             baseCurrency,
             rates
         )
+    }
+
+    override fun updateParams() {
+        param(PARAM_BASE_CURRENCY, mainCurrencyKeyProvider.getMainCurrencyKey())
     }
 
     class GetRatesResponse(
@@ -51,7 +55,8 @@ class GetRates(
         private val PERIOD_REQUEST_MILLIS = TimeUnit.SECONDS.toMillis(1)
 
         private const val PARAM_BASE_CURRENCY = "base"
-        private const val KEY_BASE_CURRENCY = "baseCurrency"
-        private const val KEY_RATES = "rates"
+
+        private const val JSON_KEY_BASE_CURRENCY = "baseCurrency"
+        private const val JSON_KEY_RATES = "rates"
     }
 }
