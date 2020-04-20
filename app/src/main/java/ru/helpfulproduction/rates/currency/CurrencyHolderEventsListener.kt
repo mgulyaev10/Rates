@@ -1,4 +1,4 @@
-package ru.helpfulproduction.rates
+package ru.helpfulproduction.rates.currency
 
 import ru.helpfulproduction.rates.ui.views.AmountEditText
 

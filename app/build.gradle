@@ -4,6 +4,8 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
+    id("io.fabric")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -46,4 +48,5 @@ dependencies {
     implementation Deps.Libraries.rxJava
     implementation Deps.Libraries.rxAndroid
     implementation Deps.Libraries.okHttp
+    implementation Deps.Libraries.crashlytics
 }

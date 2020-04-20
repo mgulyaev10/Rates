@@ -2,7 +2,6 @@ package ru.helpfulproduction.rates.core
 
 import android.content.Context
 import io.reactivex.rxjava3.core.Observable
-import ru.helpfulproduction.rates.MainCurrencyKeyProvider
 import ru.helpfulproduction.rates.api.rates.GetRates
 import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.mvp.BaseModel

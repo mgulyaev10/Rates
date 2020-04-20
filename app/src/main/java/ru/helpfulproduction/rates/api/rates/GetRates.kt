@@ -1,10 +1,9 @@
 package ru.helpfulproduction.rates.api.rates
 
 import org.json.JSONObject
-import ru.helpfulproduction.rates.MainCurrencyKeyProvider
+import ru.helpfulproduction.rates.core.MainCurrencyKeyProvider
 import ru.helpfulproduction.rates.api.core.ApiResponse
 import ru.helpfulproduction.rates.api.core.RepeatableApiRequest
-import ru.helpfulproduction.rates.currency.CurrencyKeys
 import java.util.concurrent.TimeUnit
 
 class GetRates(

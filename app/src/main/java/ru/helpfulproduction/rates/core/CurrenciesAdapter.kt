@@ -1,13 +1,12 @@
 package ru.helpfulproduction.rates.core
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.helpfulproduction.rates.currency.CurrencyHelper
 import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.extensions.setItemAsFirst
-import ru.helpfulproduction.rates.CurrencyHolderEventsListener
+import ru.helpfulproduction.rates.currency.CurrencyHolderEventsListener
 import ru.helpfulproduction.rates.extensions.isZero
 import ru.helpfulproduction.rates.ui.holders.CurrencyHolder
 import ru.helpfulproduction.rates.ui.views.AmountEditText
@@ -24,7 +23,8 @@ class CurrenciesAdapter(
             mainCurrency.rate = 1F
         }
 
-    private val currencyHolderListener = object: CurrencyHolderEventsListener {
+    private val currencyHolderListener = object:
+        CurrencyHolderEventsListener {
         override fun onClick(position: Int, view: AmountEditText) {
             updateMainCurrency(position)
             view.requestFocusImpl()

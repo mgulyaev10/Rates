@@ -16,6 +16,8 @@ object Deps {
     object Versions {
         const val gradle = "3.6.2"
         const val kotlin = "1.3.61"
+        const val googleServices = "4.3.3"
+        const val fabricGradle = "1.31.2"
 
         const val constraintLayout = "1.1.3"
         const val coordinatorLayout = "1.1.0"
@@ -25,6 +27,7 @@ object Deps {
         const val rxJava = "3.0.0"
         const val rxAndroid = "3.0.0"
         const val okHttp = "4.5.0"
+        const val crashlytics = "2.10.1"
     }
 
     object LibrariesSupport {
@@ -39,11 +42,17 @@ object Deps {
         const val rxJava = "io.reactivex.rxjava3:rxjava:${Versions.rxJava}"
         const val rxAndroid = "io.reactivex.rxjava3:rxandroid:${Versions.rxAndroid}"
         const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
+        const val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
     }
 
     object Plugins {
         const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
         const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+        const val googleServices = "com.google.gms:google-services:${Versions.googleServices}"
+        const val fabricGradle = "io.fabric.tools:gradle:${Versions.fabricGradle}"
     }
 
+    object Repositories {
+        const val mavenFabric = "https://maven.fabric.io/public"
+    }
 }

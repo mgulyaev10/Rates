@@ -9,7 +9,7 @@ import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
-import ru.helpfulproduction.rates.AmountUpdateListener
+import ru.helpfulproduction.rates.core.AmountUpdateListener
 import ru.helpfulproduction.rates.R
 import ru.helpfulproduction.rates.utils.SimpleTextWatcher
 

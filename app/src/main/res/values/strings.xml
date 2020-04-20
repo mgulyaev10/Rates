@@ -2,6 +2,7 @@
     <string name="app_name">Rates</string>
 
     <string name="accessibility_retry">Перезагрузить</string>
+    <string name="error">Ошибка. Попробуйте ещё раз</string>
 
     <!--NOT TRANSLATED STRINGS-->
     <string name="euro">Euro</string>

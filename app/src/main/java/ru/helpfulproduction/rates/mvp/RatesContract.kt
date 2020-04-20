@@ -12,9 +12,14 @@ interface RatesContract {
     interface Presenter: BaseContract.Presenter {
         fun getCurrenciesAdapter(): CurrenciesAdapter
         fun onCurrencyChanged()
+        fun onRetryClick()
     }
 
-    interface View<P: Presenter>: BaseContract.View<P>, ScrolledToTop
+    interface View<P: Presenter>: BaseContract.View<P>, ScrolledToTop {
+        fun showError()
+        fun showLoading()
+        fun hideErrorLoading()
+    }
 
     interface Model<P: Presenter>: BaseContract.Model<P>, CurrencyChangeListener {
         fun loadRates(): Observable<GetRates.GetRatesResponse>

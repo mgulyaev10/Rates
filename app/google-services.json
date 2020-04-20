@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "468260655004",
+    "firebase_url": "https://rates-b4178.firebaseio.com",
+    "project_id": "rates-b4178",
+    "storage_bucket": "rates-b4178.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468260655004:android:60828fb4fa856a87a74259",
+        "android_client_info": {
+          "package_name": "ru.helpfulproduction.rates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468260655004-kb9phor6e1amlf11eghqhgln5rlgsaav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_hyElmodKr-aj4AyRsMudkp4AQ0lYXgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468260655004-kb9phor6e1amlf11eghqhgln5rlgsaav.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

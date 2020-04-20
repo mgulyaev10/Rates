@@ -3,11 +3,11 @@ package ru.helpfulproduction.rates.ui.holders
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import ru.helpfulproduction.rates.AmountUpdateListener
+import ru.helpfulproduction.rates.core.AmountUpdateListener
 import ru.helpfulproduction.rates.recycler.base.BaseViewHolder
 import ru.helpfulproduction.rates.R
 import ru.helpfulproduction.rates.currency.CurrencyItem
-import ru.helpfulproduction.rates.CurrencyHolderEventsListener
+import ru.helpfulproduction.rates.currency.CurrencyHolderEventsListener
 import ru.helpfulproduction.rates.extensions.isZero
 import ru.helpfulproduction.rates.extensions.withoutFractionalPart
 import ru.helpfulproduction.rates.ui.views.AmountEditText
