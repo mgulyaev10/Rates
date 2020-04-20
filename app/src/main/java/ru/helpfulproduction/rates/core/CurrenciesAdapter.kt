@@ -17,6 +17,10 @@ class CurrenciesAdapter(
     private val mainCurrencyChangeListener: CurrencyChangeListener
 ): RecyclerView.Adapter<CurrencyHolder>() {
 
+    init {
+        setHasStableIds(true)
+    }
+
     private var items: List<CurrencyItem> = getSortedItems()
         set(value) {
             field = value
@@ -78,6 +82,10 @@ class CurrenciesAdapter(
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return items[position].imageRes.toLong()
     }
 
     override fun getItemViewType(position: Int): Int {

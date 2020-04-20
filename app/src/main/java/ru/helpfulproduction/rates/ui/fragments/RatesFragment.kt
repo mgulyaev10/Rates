@@ -78,6 +78,7 @@ class RatesFragment: BaseMvpFragment<RatesContract.Presenter>(),
         loading = view.findViewById(R.id.loading)
         recycler = view.findViewById<RecyclerView>(R.id.recycler).apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            setHasFixedSize(true)
             adapter = presenter?.getCurrenciesAdapter()
         }
         retry = view.findViewById<ImageView>(R.id.retry).apply {

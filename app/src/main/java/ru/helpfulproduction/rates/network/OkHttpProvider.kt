@@ -20,8 +20,8 @@ class OkHttpProvider {
     }
 
     private companion object {
-        const val DEFAULT_CONNECT_TIMEOUT_SECONDS = 20L
-        const val DEFAULT_READ_TIMEOUT_SECONDS = 30L
+        const val DEFAULT_CONNECT_TIMEOUT_SECONDS = 10L
+        const val DEFAULT_READ_TIMEOUT_SECONDS = 15L
     }
 
 }

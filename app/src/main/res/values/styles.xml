@@ -5,4 +5,14 @@
         <item name="colorAccent">@color/color_accent</item>
     </style>
 
+    <style name="TextPrimarySingleLine" parent="TextSingleLine">
+        <item name="android:textColor">@color/color_currency_title</item>
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@string/font_family_medium</item>
+    </style>
+
+    <style name="TextSingleLine">
+        <item name="android:maxLines">1</item>
+    </style>
+
 </resources>

@@ -65,7 +65,7 @@ class AmountEditText: AppCompatEditText {
 
     private fun recolorText(s: Editable?) {
         val textColor = if (isZero(s)) {
-            R.color.color_inactive
+            R.color.gray_80
         } else {
             R.color.black
         }

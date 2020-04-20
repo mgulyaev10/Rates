@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="72dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
@@ -19,7 +19,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/barrier"/>
+        app:layout_constraintEnd_toStartOf="@id/barrier"
+        tools:src="@drawable/ic_euro_40"/>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -27,7 +28,6 @@
         android:layout_height="match_parent"
         app:barrierDirection="end"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/image"
         app:layout_constraintEnd_toStartOf="@id/title" />
 
@@ -35,8 +35,9 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        style="@style/TextAppearance.AppCompat.Subhead"
+        android:maxHeight="24dp"
+        android:textSize="16sp"
+        style="@style/TextPrimarySingleLine"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/subtitle"
@@ -47,8 +48,10 @@
         android:id="@+id/subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:textSize="14sp"
+        android:maxHeight="20dp"
+        android:fontFamily="@string/font_family_regular"
+        android:textColor="@color/gray_50"
+        style="@style/TextSingleLine"
         app:layout_constraintStart_toEndOf="@id/barrier"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,12 +61,13 @@
         android:id="@+id/money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxHeight="28dp"
         android:minWidth="40dp"
         android:maxWidth="120dp"
-        android:maxLines="1"
-        android:backgroundTint="@color/color_inactive"
+        android:paddingTop="0dp"
+        android:backgroundTint="@color/gray_80"
         android:gravity="end"
-        style="@style/TextAppearance.AppCompat.Title"
+        style="@style/TextPrimarySingleLine"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
