@@ -41,6 +41,16 @@ class RatesFragment: BaseMvpFragment<RatesContract.Presenter>(),
         super.onDestroyView()
     }
 
+    override fun onStart() {
+        super.onStart()
+        presenter?.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter?.onStop()
+    }
+
     override fun scrollToTop() {
         recycler.scrollToPosition(0)
         appbar.setExpanded(true, true)

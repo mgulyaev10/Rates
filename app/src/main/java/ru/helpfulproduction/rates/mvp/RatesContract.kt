@@ -13,6 +13,8 @@ interface RatesContract {
         fun getCurrenciesAdapter(): CurrenciesAdapter
         fun onCurrencyChanged()
         fun onRetryClick()
+        fun onStart()
+        fun onStop()
     }
 
     interface View<P: Presenter>: BaseContract.View<P>, ScrolledToTop {

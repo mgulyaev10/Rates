@@ -1,10 +1,15 @@
 package ru.helpfulproduction.rates.core
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import io.reactivex.rxjava3.disposables.Disposable
 import ru.helpfulproduction.rates.utils.Preference
 import ru.helpfulproduction.rates.extensions.disposeOnDestroyOf
 import ru.helpfulproduction.rates.log.Tracker
 import ru.helpfulproduction.rates.mvp.RatesContract
+import ru.helpfulproduction.rates.utils.NetworkState
 
 class RatesPresenter(
     private val view: RatesContract.View<RatesContract.Presenter>
@@ -12,6 +17,8 @@ class RatesPresenter(
 
     private val model: RatesContract.Model<RatesContract.Presenter> = RatesModel(this)
     private val currenciesAdapter = CurrenciesAdapter(model.getMainCurrency(view.getContext()), model)
+
+    private val networkStateReceiver = NetworkStateReceiver()
     private var disposable: Disposable? = null
 
     override fun getCurrenciesAdapter(): CurrenciesAdapter {
@@ -28,6 +35,14 @@ class RatesPresenter(
 
     override fun onDestroyView() {
         Preference.setMainCurrency(view.getContext(), model.getMainCurrency(view.getContext()).key)
+    }
+
+    override fun onStart() {
+        view.getContext()?.registerReceiver(networkStateReceiver, networkStateReceiver.intentFilter)
+    }
+
+    override fun onStop() {
+        view.getContext()?.unregisterReceiver(networkStateReceiver)
     }
 
     override fun onCurrencyChanged() {
@@ -55,4 +70,17 @@ class RatesPresenter(
         disposable = null
     }
 
+    private inner class NetworkStateReceiver: BroadcastReceiver() {
+        val intentFilter = IntentFilter().apply {
+            addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        }
+
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (NetworkState.isConnected(context)) {
+                loadRates()
+            } else {
+                view.showError()
+            }
+        }
+    }
 }
