@@ -88,6 +88,7 @@ class CurrenciesAdapter(
         if (mainCurrency == items[position]) {
             return
         }
+        mainCurrency.rate = 1F / items[position].rate
         mainCurrency = items[position]
         moveItemToTop(position)
         mainCurrencyChangeListener.onCurrencyChanged(mainCurrency)
