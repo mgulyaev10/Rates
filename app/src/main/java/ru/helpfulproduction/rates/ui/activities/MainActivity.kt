@@ -1,12 +1,12 @@
 package ru.helpfulproduction.rates.ui.activities
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ru.helpfulproduction.rates.R
-import ru.helpfulproduction.rates.utils.SmartActivity
 import ru.helpfulproduction.rates.ui.fragments.RatesFragment
 
-class MainActivity : SmartActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

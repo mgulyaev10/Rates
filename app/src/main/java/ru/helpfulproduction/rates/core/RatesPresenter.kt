@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import io.reactivex.rxjava3.disposables.Disposable
 import ru.helpfulproduction.rates.utils.Preference
-import ru.helpfulproduction.rates.extensions.disposeOnDestroyOf
 import ru.helpfulproduction.rates.log.Tracker
 import ru.helpfulproduction.rates.mvp.RatesContract
 import ru.helpfulproduction.rates.utils.NetworkState
@@ -20,6 +19,10 @@ class RatesPresenter(
 
     private val networkStateReceiver = NetworkStateReceiver()
     private var disposable: Disposable? = null
+        set(value) {
+            disposable?.dispose()
+            field = value
+        }
 
     override fun getCurrenciesAdapter(): CurrenciesAdapter {
         return currenciesAdapter
@@ -62,7 +65,6 @@ class RatesPresenter(
                 Tracker.logException(it)
                 clearDisposable()
             })
-            .disposeOnDestroyOf(view.getContext())
     }
 
     private fun clearDisposable() {
@@ -76,6 +78,9 @@ class RatesPresenter(
         }
 
         override fun onReceive(context: Context?, intent: Intent?) {
+            if (isInitialStickyBroadcast) {
+                return
+            }
             if (NetworkState.isConnected(context)) {
                 loadRates()
             } else {
