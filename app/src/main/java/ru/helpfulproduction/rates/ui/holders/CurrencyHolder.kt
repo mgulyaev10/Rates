@@ -39,7 +39,7 @@ class CurrencyHolder(
         view.setOnClickListener {
             listener.onClick(adapterPosition, money)
         }
-        money.setOnTouchListener { v, event ->
+        money.setOnTouchListener { _, _ ->
             listener.onClick(adapterPosition, money)
             return@setOnTouchListener false
         }
@@ -58,7 +58,9 @@ class CurrencyHolder(
     }
 
     fun bindMoney(amount: Float) {
-        val text = if (amount.isZero() || amount.withoutFractionalPart()) {
+        val text = if (amount.isInfinite() || amount.isNaN()) {
+            "0"
+        } else if (amount.isZero() || amount.withoutFractionalPart()) {
             amount.toInt().toString()
         } else {
             String.format(Locale.US, "%.2f", amount)
