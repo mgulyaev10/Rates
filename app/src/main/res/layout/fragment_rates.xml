@@ -16,7 +16,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="16dp"
+            app:layout_scrollFlags="scroll">
 
             <TextView
                 android:id="@+id/title"
@@ -25,7 +26,6 @@
                 android:layout_marginStart="56dp"
                 android:text="@string/app_name"
                 style="@style/TextAppearance.AppCompat.Title"
-                app:layout_scrollFlags="scroll"
                 tools:text="Rates"/>
 
             <ImageView

@@ -27,11 +27,9 @@ class CurrenciesAdapter(
             mainCurrency.rate = 1F
         }
 
-    private val currencyHolderListener = object:
-        CurrencyHolderEventsListener {
+    private val currencyHolderListener = object: CurrencyHolderEventsListener {
         override fun onClick(position: Int, view: AmountEditText) {
             updateMainCurrency(position)
-            view.requestFocusImpl()
             KeyboardUtils.showKeyboard(view)
         }
 

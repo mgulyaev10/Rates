@@ -16,6 +16,7 @@ import ru.helpfulproduction.rates.core.RatesPresenter
 import ru.helpfulproduction.rates.extensions.setGone
 import ru.helpfulproduction.rates.extensions.setVisible
 import ru.helpfulproduction.rates.mvp.BaseMvpFragment
+import ru.helpfulproduction.rates.utils.KeyboardUtils
 import ru.helpfulproduction.rates.utils.ToastUtils
 
 class RatesFragment: BaseMvpFragment<RatesContract.Presenter>(),
@@ -44,6 +45,11 @@ class RatesFragment: BaseMvpFragment<RatesContract.Presenter>(),
     override fun onStart() {
         super.onStart()
         presenter?.onStart()
+    }
+
+    override fun onPause() {
+        KeyboardUtils.hideKeyboard(recycler)
+        super.onPause()
     }
 
     override fun onStop() {

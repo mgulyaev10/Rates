@@ -1,11 +1,9 @@
 package ru.helpfulproduction.rates.ui.views
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.text.Editable
 import android.text.InputType
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
@@ -25,11 +23,18 @@ class AmountEditText: AppCompatEditText {
         imeOptions = IME_OPTIONS
         inputType = INPUT_TYPE
         addTextChangedListener(object: SimpleTextWatcher() {
+            private var isFirstSymbol = false
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if (isZero(s)) {
+                    isFirstSymbol = true
+                }
+            }
             override fun afterTextChanged(s: Editable?) {
                 checkCorrectInput(s)
+                clearZeroIfFirstSymbol(isFirstSymbol, s)
                 recolorText(s)
-                moveCursorToEndIfNeed()
                 notifyAmountChangedIfNeed(s)
+                isFirstSymbol = false
             }
         })
     }
@@ -38,27 +43,15 @@ class AmountEditText: AppCompatEditText {
         this.amountUpdateListener = amountUpdateListener
     }
 
-    fun requestFocusImpl() {
-        requestFocus()
-        moveCursorToEndImpl()
-    }
-
     fun setTextImpl(text: CharSequence) {
         isUserInput = false
         setText(text)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        super.onTouchEvent(event)
-        moveCursorToEndIfNeed()
-        return true
-    }
-
     private fun checkCorrectInput(s: Editable?) {
         if (isIncorrectInput(s)) {
             s?.insert(0, "0")
-        } else if (isIntAndZeroFirst(s)) {
+        } else if (isIntAndZeroFirst(s) || isFloatAndDoubleZero(s)) {
             s?.delete(0, 1)
         }
     }
@@ -72,18 +65,6 @@ class AmountEditText: AppCompatEditText {
         setTextColor(ContextCompat.getColor(context, textColor))
     }
 
-    private fun moveCursorToEndIfNeed() {
-        if (isZero(text)) {
-            moveCursorToEndImpl()
-        }
-    }
-
-    private fun moveCursorToEndImpl() {
-        text?.length?.let { length ->
-            setSelection(length)
-        }
-    }
-
     private fun notifyAmountChangedIfNeed(s: Editable?) {
         if (!isUserInput) {
             isUserInput = true
@@ -92,7 +73,7 @@ class AmountEditText: AppCompatEditText {
         amountUpdateListener?.onAmountUpdate(s?.toString())
     }
 
-    private fun isZero(text: Editable?): Boolean {
+    private fun isZero(text: CharSequence?): Boolean {
         return text?.toString() == "0"
     }
 
@@ -101,7 +82,20 @@ class AmountEditText: AppCompatEditText {
     }
 
     private fun isIntAndZeroFirst(text: Editable?): Boolean {
-        return text?.first() == '0' && text.length > 1 && !text.contains(".")
+        val length = text?.length ?: return false
+        return length > 1 && text.first() == '0' && !text.contains(".")
+    }
+
+    private fun isFloatAndDoubleZero(text: Editable?): Boolean {
+        val length = text?.length ?: return false
+        return length > 1 && text.contains(".") && text.first() == '0' && text[1] == '0'
+    }
+
+    private fun clearZeroIfFirstSymbol(isFirstSymbol: Boolean, text: Editable?) {
+        if (!isFirstSymbol || text?.length != 2) {
+            return
+        }
+        text.delete(1,2)
     }
 
     companion object {

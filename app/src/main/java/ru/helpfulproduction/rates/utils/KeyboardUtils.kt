@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 object KeyboardUtils {
 
     fun showKeyboard(view: View) {
+        view.requestFocus()
         getInputMethodManager(view).showSoftInput(view, InputMethodManager.SHOW_FORCED)
     }
 

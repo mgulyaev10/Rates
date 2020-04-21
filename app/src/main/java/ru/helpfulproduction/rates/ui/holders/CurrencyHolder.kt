@@ -39,10 +39,11 @@ class CurrencyHolder(
         view.setOnClickListener {
             listener.onClick(adapterPosition, money)
         }
+        money.setOnClickListener {
+            listener.onClick(adapterPosition, money)
+        }
         money.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                listener.onClick(adapterPosition, money)
-            } else {
+            if (!hasFocus) {
                 KeyboardUtils.hideKeyboard(v)
             }
         }
