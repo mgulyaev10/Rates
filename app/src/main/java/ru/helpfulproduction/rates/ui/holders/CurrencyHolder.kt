@@ -39,8 +39,9 @@ class CurrencyHolder(
         view.setOnClickListener {
             listener.onClick(adapterPosition, money)
         }
-        money.setOnClickListener {
+        money.setOnTouchListener { v, event ->
             listener.onClick(adapterPosition, money)
+            return@setOnTouchListener false
         }
         money.setOnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
