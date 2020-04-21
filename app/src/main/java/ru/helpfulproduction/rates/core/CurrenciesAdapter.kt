@@ -94,7 +94,7 @@ class CurrenciesAdapter(
         if (mainCurrency == items[position]) {
             return
         }
-        mainCurrency.rate = 1F / items[position].rate
+        mainCurrency.rate = calculateRateForPreviousMain(items[position].rate)
         mainCurrency = items[position]
         moveItemToTop(position)
         mainCurrencyChangeListener.onCurrencyChanged(mainCurrency)
@@ -112,6 +112,14 @@ class CurrenciesAdapter(
             it.amount = mainCurrencyAmount * it.rate
         }
         notifyItemRangeChanged(1, items.size, CurrencyHolder.PAYLOAD_AMOUNT_TEXT)
+    }
+
+    private fun calculateRateForPreviousMain(newMainCurrencyRate: Float): Float {
+        return if (newMainCurrencyRate.isZero()) {
+            0F
+        } else {
+            1F / newMainCurrencyRate
+        }
     }
 
     private fun getSortedItems() =
