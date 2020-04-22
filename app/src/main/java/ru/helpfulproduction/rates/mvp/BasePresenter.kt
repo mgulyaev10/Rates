@@ -1,6 +1,4 @@
-package ru.helpfulproduction.rates
-
-import ru.helpfulproduction.rates.mvp.BaseContract
+package ru.helpfulproduction.rates.mvp
 
 abstract class BasePresenter<V: BaseContract.View>: BaseContract.Presenter<V> {
 

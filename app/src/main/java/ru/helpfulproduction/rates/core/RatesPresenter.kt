@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import io.reactivex.rxjava3.disposables.Disposable
-import ru.helpfulproduction.rates.BasePresenter
+import ru.helpfulproduction.rates.mvp.BasePresenter
 import ru.helpfulproduction.rates.utils.Preference
 import ru.helpfulproduction.rates.log.Tracker
 import ru.helpfulproduction.rates.mvp.RatesContract

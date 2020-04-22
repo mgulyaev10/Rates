@@ -3,6 +3,7 @@ package ru.helpfulproduction.rates.core
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ru.helpfulproduction.rates.core.cache.CurrenciesCache
 import ru.helpfulproduction.rates.currency.CurrencyHelper
 import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.extensions.setItemAsFirst
@@ -25,6 +26,7 @@ class CurrenciesAdapter(
         set(value) {
             field = value
             mainCurrency.rate = 1F
+            CurrenciesCache.save(value)
         }
 
     private val currencyHolderListener = object: CurrencyHolderEventsListener {
@@ -122,8 +124,10 @@ class CurrenciesAdapter(
         }
     }
 
-    private fun getSortedItems() =
-        CurrencyHelper.getCurrencies().setItemAsFirst {
+    private fun getSortedItems(): List<CurrencyItem> {
+        val cached = CurrenciesCache.get()
+        return cached ?: CurrencyHelper.getCurrencies().setItemAsFirst {
             it.key == mainCurrency.key
         }
+    }
 }
