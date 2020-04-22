@@ -1,5 +1,6 @@
 package ru.helpfulproduction.rates.ui.holders
 
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -45,9 +46,9 @@ class CurrencyHolder(
             }
             listener.onClick(adapterPosition, money)
         }
-        money.setOnTouchListener { _, _ ->
+        money.setOnTouchListener { _, motionEvent ->
             val adapterPosition = adapterPosition
-            if (adapterPosition != RecyclerView.NO_POSITION) {
+            if (adapterPosition != RecyclerView.NO_POSITION && motionEvent.action == MotionEvent.ACTION_UP) {
                 listener.onClick(adapterPosition, money)
             }
             return@setOnTouchListener false
