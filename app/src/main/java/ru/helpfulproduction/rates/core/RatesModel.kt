@@ -4,23 +4,18 @@ import android.content.Context
 import io.reactivex.rxjava3.core.Observable
 import ru.helpfulproduction.rates.api.rates.GetRates
 import ru.helpfulproduction.rates.currency.CurrencyItem
-import ru.helpfulproduction.rates.mvp.BaseModel
 import ru.helpfulproduction.rates.mvp.RatesContract
 import ru.helpfulproduction.rates.utils.Preference
 
-class RatesModel(
-    presenter: RatesContract.Presenter
-): BaseModel<RatesContract.Presenter>(), RatesContract.Model<RatesContract.Presenter> {
+class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
+    override var presenter: P
+): RatesContract.Model<P> {
 
     private var mainCurrency: CurrencyItem? = null
     private val mainCurrencyKeyProvider = object: MainCurrencyKeyProvider {
         override fun getMainCurrencyKey(): String {
             return mainCurrency?.key ?: throw IllegalStateException("mainCurrency has not initialized yet!")
         }
-    }
-
-    init {
-        this.presenter = presenter
     }
 
     override fun loadRates(): Observable<GetRates.GetRatesResponse> {
@@ -34,7 +29,7 @@ class RatesModel(
     }
 
     override fun onCurrencyChanged(newCurrency: CurrencyItem) {
-        presenter?.onCurrencyChanged()
+        presenter.onCurrencyChanged()
         mainCurrency = newCurrency
     }
 

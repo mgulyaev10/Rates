@@ -4,18 +4,19 @@ import android.content.Context
 
 interface BaseContract {
 
-    interface Presenter {
-        fun onCreateView()
-        fun onDestroyView()
+    interface Presenter<V: View> {
+        var view: V?
+        fun attachView(v: V)
+        fun detachView()
+        fun onViewCreated()
     }
 
-    interface View<P: Presenter> {
-        var presenter: P?
+    interface View {
         fun getContext(): Context?
     }
 
-    interface Model<P: Presenter> {
-        var presenter: P?
+    interface Model<P: Presenter<out View>> {
+        var presenter: P
     }
 
 }

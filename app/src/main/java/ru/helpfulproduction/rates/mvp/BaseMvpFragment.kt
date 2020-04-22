@@ -3,10 +3,10 @@ package ru.helpfulproduction.rates.mvp
 import android.content.Context
 import androidx.fragment.app.Fragment
 
-abstract class BaseMvpFragment<P: BaseContract.Presenter>: Fragment(),
-    BaseContract.View<P> {
+abstract class BaseMvpFragment<P: BaseContract.Presenter<out BaseContract.View>>: Fragment(),
+    BaseContract.View {
 
-    override var presenter: P? = null
+    abstract var presenter: P
 
     override fun getContext(): Context? = super.getContext()
 

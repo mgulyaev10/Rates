@@ -19,8 +19,8 @@ import ru.helpfulproduction.rates.mvp.BaseMvpFragment
 import ru.helpfulproduction.rates.utils.KeyboardUtils
 import ru.helpfulproduction.rates.utils.ToastUtils
 
-class RatesFragment: BaseMvpFragment<RatesContract.Presenter>(),
-    RatesContract.View<RatesContract.Presenter> {
+class RatesFragment: BaseMvpFragment<RatesContract.Presenter<RatesContract.View>>(),
+    RatesContract.View {
 
     private lateinit var recycler: RecyclerView
     private lateinit var title: TextView
@@ -28,23 +28,28 @@ class RatesFragment: BaseMvpFragment<RatesContract.Presenter>(),
     private lateinit var retry: ImageView
     private lateinit var loading: ProgressBar
 
+    override var presenter: RatesContract.Presenter<RatesContract.View> = RatesPresenter()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_rates, container, false)
-        presenter = RatesPresenter(this)
+        presenter.attachView(this)
         initViews(view)
-        presenter?.onCreateView()
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.onViewCreated()
+    }
+
     override fun onDestroyView() {
-        presenter?.onDestroyView()
-        presenter = null
+        presenter.detachView()
         super.onDestroyView()
     }
 
     override fun onStart() {
         super.onStart()
-        presenter?.onStart()
+        presenter.onStart()
     }
 
     override fun onPause() {
@@ -54,7 +59,7 @@ class RatesFragment: BaseMvpFragment<RatesContract.Presenter>(),
 
     override fun onStop() {
         super.onStop()
-        presenter?.onStop()
+        presenter.onStop()
     }
 
     override fun scrollToTop() {
@@ -85,11 +90,11 @@ class RatesFragment: BaseMvpFragment<RatesContract.Presenter>(),
         recycler = view.findViewById<RecyclerView>(R.id.recycler).apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
-            adapter = presenter?.getCurrenciesAdapter()
+            adapter = presenter.getCurrenciesAdapter()
         }
         retry = view.findViewById<ImageView>(R.id.retry).apply {
             setOnClickListener {
-                presenter?.onRetryClick()
+                presenter.onRetryClick()
             }
         }
     }

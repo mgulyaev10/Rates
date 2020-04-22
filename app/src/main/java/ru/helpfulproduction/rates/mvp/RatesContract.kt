@@ -9,7 +9,7 @@ import ru.helpfulproduction.rates.core.CurrencyChangeListener
 import ru.helpfulproduction.rates.currency.CurrencyItem
 
 interface RatesContract {
-    interface Presenter: BaseContract.Presenter {
+    interface Presenter<V: View>: BaseContract.Presenter<V> {
         fun getCurrenciesAdapter(): CurrenciesAdapter
         fun onCurrencyChanged()
         fun onRetryClick()
@@ -17,13 +17,13 @@ interface RatesContract {
         fun onStop()
     }
 
-    interface View<P: Presenter>: BaseContract.View<P>, ScrolledToTop {
+    interface View: BaseContract.View, ScrolledToTop {
         fun showError()
         fun showLoading()
         fun hideErrorLoading()
     }
 
-    interface Model<P: Presenter>: BaseContract.Model<P>, CurrencyChangeListener {
+    interface Model<P: Presenter<View>>: BaseContract.Model<P>, CurrencyChangeListener {
         fun loadRates(): Observable<GetRates.GetRatesResponse>
         fun getMainCurrency(context: Context?): CurrencyItem
     }
