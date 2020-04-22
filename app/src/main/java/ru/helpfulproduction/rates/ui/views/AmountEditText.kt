@@ -92,10 +92,9 @@ class AmountEditText: AppCompatEditText {
     }
 
     private fun clearZeroIfFirstSymbol(isFirstSymbol: Boolean, text: Editable?) {
-        if (!isFirstSymbol || text?.length != 2) {
-            return
+        if (isFirstSymbol && text?.length == 2 && text[1] != '.') {
+            text.delete(1, 2)
         }
-        text.delete(1,2)
     }
 
     companion object {
