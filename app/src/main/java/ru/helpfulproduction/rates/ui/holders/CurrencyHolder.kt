@@ -3,6 +3,7 @@ package ru.helpfulproduction.rates.ui.holders
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import ru.helpfulproduction.rates.core.AmountUpdateListener
 import ru.helpfulproduction.rates.recycler.base.BaseViewHolder
 import ru.helpfulproduction.rates.R
@@ -21,7 +22,8 @@ class CurrencyHolder(
 
     private val amountUpdateListener = object: AmountUpdateListener {
         override fun onAmountUpdate(amount: String?) {
-            if (amount == null) {
+            val adapterPosition = adapterPosition
+            if (amount == null || adapterPosition == RecyclerView.NO_POSITION) {
                 return
             }
             listener.onAmountUpdate(adapterPosition, amount)
@@ -37,10 +39,17 @@ class CurrencyHolder(
 
     init {
         view.setOnClickListener {
+            val adapterPosition = adapterPosition
+            if (adapterPosition == RecyclerView.NO_POSITION) {
+                return@setOnClickListener
+            }
             listener.onClick(adapterPosition, money)
         }
         money.setOnTouchListener { _, _ ->
-            listener.onClick(adapterPosition, money)
+            val adapterPosition = adapterPosition
+            if (adapterPosition != RecyclerView.NO_POSITION) {
+                listener.onClick(adapterPosition, money)
+            }
             return@setOnTouchListener false
         }
         money.setOnFocusChangeListener { v, hasFocus ->
