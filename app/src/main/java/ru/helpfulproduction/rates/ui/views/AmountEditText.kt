@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
-import ru.helpfulproduction.rates.core.AmountUpdateListener
 import ru.helpfulproduction.rates.R
 import ru.helpfulproduction.rates.utils.SimpleTextWatcher
 
@@ -102,6 +101,10 @@ class AmountEditText: AppCompatEditText {
                 InputType.TYPE_NUMBER_FLAG_DECIMAL
         private const val IME_OPTIONS = EditorInfo.IME_ACTION_DONE or
                 EditorInfo.IME_FLAG_NO_ACCESSORY_ACTION
+    }
+
+    interface AmountUpdateListener {
+        fun onAmountUpdate(amount: String?)
     }
 
 }

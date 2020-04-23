@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import ru.helpfulproduction.rates.core.AmountUpdateListener
 import ru.helpfulproduction.rates.recycler.base.BaseViewHolder
 import ru.helpfulproduction.rates.R
 import ru.helpfulproduction.rates.currency.CurrencyItem
@@ -21,7 +20,7 @@ class CurrencyHolder(
     listener: CurrencyHolderEventsListener
 ): BaseViewHolder<CurrencyItem>(view) {
 
-    private val amountUpdateListener = object: AmountUpdateListener {
+    private val amountUpdateListener = object: AmountEditText.AmountUpdateListener {
         override fun onAmountUpdate(amount: String?) {
             val adapterPosition = adapterPosition
             if (amount == null || adapterPosition == RecyclerView.NO_POSITION) {

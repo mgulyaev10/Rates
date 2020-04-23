@@ -1,19 +1,22 @@
 package ru.helpfulproduction.rates.api.rates
 
 import org.json.JSONObject
-import ru.helpfulproduction.rates.core.MainCurrencyKeyProvider
+import ru.helpfulproduction.rates.core.BaseCurrencyKeyProvider
 import ru.helpfulproduction.rates.api.core.ApiResponse
 import ru.helpfulproduction.rates.api.core.RepeatableApiRequest
 import java.util.concurrent.TimeUnit
 
 class GetRates(
-    private val mainCurrencyKeyProvider: MainCurrencyKeyProvider
+    private val baseCurrencyKeyProvider: BaseCurrencyKeyProvider
 ): RepeatableApiRequest<GetRates.GetRatesResponse> (PERIOD_REQUEST_MILLIS, "latest") {
 
     init {
-        param(PARAM_BASE_CURRENCY, mainCurrencyKeyProvider.getMainCurrencyKey())
+        param(PARAM_BASE_CURRENCY, baseCurrencyKeyProvider.getBaseCurrencyKey())
     }
 
+    /**
+     * May contains rate = 0.0 for some value (F.e. KRW -> EUR) - API Bug
+     */
     override fun parse(body: String): GetRatesResponse {
         if (body.isEmpty()) {
             return GetRatesResponse.empty()
@@ -33,7 +36,7 @@ class GetRates(
     }
 
     override fun updateParams() {
-        param(PARAM_BASE_CURRENCY, mainCurrencyKeyProvider.getMainCurrencyKey())
+        param(PARAM_BASE_CURRENCY, baseCurrencyKeyProvider.getBaseCurrencyKey())
     }
 
     class GetRatesResponse(

@@ -31,3 +31,5 @@ build/
 /gradle
 /gradlew
 /gradlew.bat
+
+google-services.json

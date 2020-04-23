@@ -5,10 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import io.reactivex.rxjava3.disposables.Disposable
+import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.mvp.BasePresenter
-import ru.helpfulproduction.rates.utils.Preference
 import ru.helpfulproduction.rates.log.Tracker
 import ru.helpfulproduction.rates.mvp.RatesContract
+import ru.helpfulproduction.rates.ui.holders.CurrencyHolder
 import ru.helpfulproduction.rates.utils.NetworkState
 
 class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Presenter<RatesContract.View> {
@@ -23,15 +24,25 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
             field = value
         }
 
+    private val baseCurrencyChangeListener = object : BaseCurrencyChangeListener {
+        override fun onAmountChanged(amountString: String) {
+            model.updateBaseCurrencyAmount(amountString)
+        }
+
+        override fun onCurrencyChanged(newCurrencyPosition: Int) {
+            model.updateBaseCurrency(newCurrencyPosition)
+        }
+    }
+
     override fun attachView(v: RatesContract.View) {
         view = v
         if (currenciesAdapter == null) {
-            currenciesAdapter = CurrenciesAdapter(model.getMainCurrency(view?.getContext()), model)
+            model.initialize(view?.getContext())
+            currenciesAdapter = CurrenciesAdapter(model.getCurrencies(), baseCurrencyChangeListener)
         }
     }
 
     override fun detachView() {
-        Preference.setMainCurrency(view?.getContext(), model.getMainCurrency(view?.getContext()).key)
         view = null
     }
 
@@ -54,11 +65,19 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
     }
 
     override fun onStop() {
+        model.saveBaseCurrency(view?.getContext())
         view?.getContext()?.unregisterReceiver(networkStateReceiver)
     }
 
-    override fun onCurrencyChanged() {
+    override fun onBaseCurrencyChanged(currencies: List<CurrencyItem>, oldBaseCurrencyPosition: Int) {
+        currenciesAdapter?.setItems(currencies)
+        currenciesAdapter?.notifyItemMoved(oldBaseCurrencyPosition, 0)
         view?.scrollToTop()
+    }
+
+    override fun onCurrenciesRecalculated(currencies: List<CurrencyItem>) {
+        currenciesAdapter?.setItems(currencies)
+        currenciesAdapter?.notifyItemRangeChanged(1, currencies.size, CurrencyHolder.PAYLOAD_AMOUNT_TEXT)
     }
 
     private fun loadRates() {
@@ -68,7 +87,7 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
             }
             .subscribe({
                 view?.hideErrorLoading()
-                currenciesAdapter?.updateRates(it.rates)
+                model.updateRates(it.rates)
             }, {
                 view?.showError()
                 Tracker.logException(it)
