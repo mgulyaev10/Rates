@@ -20,11 +20,11 @@ class CurrenciesAdapter(
 
     private val currencyHolderListener = object: CurrencyHolderEventsListener {
         override fun onClick(position: Int, view: AmountEditText) {
+            KeyboardUtils.showKeyboard(view)
             if (position == 0) {
                 return
             }
             baseCurrencyChangeListener.onCurrencyChanged(position)
-            KeyboardUtils.showKeyboard(view)
         }
 
         override fun onAmountUpdate(position: Int, amount: String) {
