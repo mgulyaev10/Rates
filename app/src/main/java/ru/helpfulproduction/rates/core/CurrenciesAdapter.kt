@@ -2,6 +2,7 @@ package ru.helpfulproduction.rates.core
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.currency.CurrencyHolderEventsListener
@@ -25,6 +26,7 @@ class CurrenciesAdapter(
                 return
             }
             baseCurrencyChangeListener.onCurrencyChanged(position)
+            notifyItemChanged(1, CurrencyHolder.PAYLOAD_AMOUNT_TEXT)
         }
 
         override fun onAmountUpdate(position: Int, amount: String) {
@@ -72,7 +74,34 @@ class CurrenciesAdapter(
     }
 
     fun setItems(items: List<CurrencyItem>) {
+        val result = DiffUtil.calculateDiff(DiffCallback(currencies, items))
         this.currencies = items
+        result.dispatchUpdatesTo(this)
+    }
+
+    private class DiffCallback(
+        private val oldItems: List<CurrencyItem>,
+        private val newItems: List<CurrencyItem>
+    ): DiffUtil.Callback() {
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldItems[oldItemPosition].amount == newItems[newItemPosition].amount
+        }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldItems[oldItemPosition].key == newItems[newItemPosition].key
+        }
+
+        override fun getNewListSize(): Int {
+            return newItems.size
+        }
+
+        override fun getOldListSize(): Int {
+            return oldItems.size
+        }
+
+        override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
+            return CurrencyHolder.PAYLOAD_AMOUNT_TEXT
+        }
     }
 
 }

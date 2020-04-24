@@ -84,10 +84,19 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
     }
 
     private fun recalculateItems() {
+        val recalculatedItems = ArrayList<CurrencyItem>()
         val baseCurrencyAmount = baseCurrency.amount
-        items.forEach {
-            it.amount = baseCurrencyAmount * it.rate
+        items.forEach { currentItem ->
+            val recalculatedItem = if (currentItem.key == baseCurrency.key) {
+                currentItem
+            } else {
+                currentItem.copy(
+                    amount = baseCurrencyAmount * currentItem.rate
+                )
+            }
+            recalculatedItems.add(recalculatedItem)
         }
+        items = recalculatedItems
     }
 
     private fun setItemsImpl(items: List<CurrencyItem>) {
