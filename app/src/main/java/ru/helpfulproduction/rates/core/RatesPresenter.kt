@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.mvp.BasePresenter
@@ -75,24 +76,29 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
         view?.scrollToTop()
     }
 
-    override fun onCurrenciesRecalculated(currencies: List<CurrencyItem>) {
-        currenciesAdapter?.setItems(currencies)
-        currenciesAdapter?.notifyItemRangeChanged(1, currencies.size, CurrencyHolder.PAYLOAD_AMOUNT_TEXT)
-    }
-
     private fun loadRates() {
         disposable = model.loadRates()
             .doOnSubscribe {
                 view?.showLoading()
             }
-            .subscribe({
-                view?.hideErrorLoading()
+            .map {
                 model.updateRates(it.rates)
+                model.getCurrencies()
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ items ->
+                view?.hideErrorLoading()
+                updateCalculatedCurrencies(items)
             }, {
                 view?.showError()
                 Tracker.logException(it)
                 clearDisposable()
             })
+    }
+
+    private fun updateCalculatedCurrencies(currencies: List<CurrencyItem>) {
+        currenciesAdapter?.setItems(currencies)
+        currenciesAdapter?.notifyItemRangeChanged(1, currencies.size, CurrencyHolder.PAYLOAD_AMOUNT_TEXT)
     }
 
     private fun clearDisposable() {

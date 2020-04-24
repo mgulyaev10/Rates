@@ -15,7 +15,6 @@ interface RatesContract {
         fun onRetryClick()
         fun onStart()
         fun onStop()
-        fun onCurrenciesRecalculated(currencies: List<CurrencyItem>)
     }
 
     interface View: BaseContract.View, ScrolledToTop {
