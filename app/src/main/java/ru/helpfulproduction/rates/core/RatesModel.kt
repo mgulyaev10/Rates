@@ -40,18 +40,15 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
         val baseCurrencyAmount = amountString.toFloat()
         baseCurrency.amount = baseCurrencyAmount
         recalculateItems()
-        presenter.onAmountUpdate(items)
     }
 
     override fun updateBaseCurrency(newBaseCurrencyPosition: Int) {
         val newCurrency = items[newBaseCurrencyPosition]
         updatePreviousBaseCurrency(newCurrency)
-        baseCurrency = newCurrency.apply {
-            rate = 1F
-        }
         val newItems = items.setItemAsFirst(newBaseCurrencyPosition)
         setItemsImpl(newItems)
         presenter.onBaseCurrencyChanged(newItems, newBaseCurrencyPosition)
+        baseCurrency = newCurrency
     }
 
     override fun updateRates(newRates: Map<String, Float>) {
@@ -83,6 +80,7 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
         } else {
             1F / newBaseCurrency.rate
         }
+        baseCurrency.amount = baseCurrency.rate * newBaseCurrency.amount
     }
 
     private fun recalculateItems() {
@@ -98,7 +96,7 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
             }
             recalculatedItems.add(recalculatedItem)
         }
-        setItemsImpl(recalculatedItems)
+        items = recalculatedItems
     }
 
     private fun setItemsImpl(items: List<CurrencyItem>) {
