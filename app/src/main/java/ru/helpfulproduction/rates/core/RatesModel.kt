@@ -30,7 +30,7 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
     }
 
     override fun loadRates(): Observable<GetRates.GetRatesResponse> {
-        return GetRates(baseCurrencyKeyProvider).toBgObservable()
+        return GetRates(baseCurrencyKeyProvider).toUiObservable()
     }
 
     override fun updateBaseCurrencyAmount(amountString: String) {
@@ -40,18 +40,15 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
         val baseCurrencyAmount = amountString.toFloat()
         baseCurrency.amount = baseCurrencyAmount
         recalculateItems()
-        presenter.onAmountUpdate(items)
     }
 
     override fun updateBaseCurrency(newBaseCurrencyPosition: Int) {
         val newCurrency = items[newBaseCurrencyPosition]
         updatePreviousBaseCurrency(newCurrency)
-        baseCurrency = newCurrency.apply {
-            rate = 1F
-        }
         val newItems = items.setItemAsFirst(newBaseCurrencyPosition)
         setItemsImpl(newItems)
         presenter.onBaseCurrencyChanged(newItems, newBaseCurrencyPosition)
+        baseCurrency = newCurrency
     }
 
     override fun updateRates(newRates: Map<String, Float>) {
@@ -83,22 +80,15 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
         } else {
             1F / newBaseCurrency.rate
         }
+        baseCurrency.amount = baseCurrency.rate * newBaseCurrency.amount
     }
 
     private fun recalculateItems() {
-        val recalculatedItems = ArrayList<CurrencyItem>()
         val baseCurrencyAmount = baseCurrency.amount
-        items.forEach { currentItem ->
-            val recalculatedItem = if (currentItem.key == baseCurrency.key) {
-                currentItem
-            } else {
-                currentItem.copy(
-                    amount = baseCurrencyAmount * currentItem.rate
-                )
-            }
-            recalculatedItems.add(recalculatedItem)
+        items.forEach {
+            it.amount = baseCurrencyAmount * it.rate
         }
-        setItemsImpl(recalculatedItems)
+        presenter.onCurrenciesRecalculated(items)
     }
 
     private fun setItemsImpl(items: List<CurrencyItem>) {

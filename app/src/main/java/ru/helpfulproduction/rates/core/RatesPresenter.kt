@@ -4,12 +4,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.mvp.BasePresenter
 import ru.helpfulproduction.rates.log.Tracker
 import ru.helpfulproduction.rates.mvp.RatesContract
+import ru.helpfulproduction.rates.ui.holders.CurrencyHolder
 import ru.helpfulproduction.rates.utils.NetworkState
 
 class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Presenter<RatesContract.View> {
@@ -71,11 +71,13 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
 
     override fun onBaseCurrencyChanged(currencies: List<CurrencyItem>, oldBaseCurrencyPosition: Int) {
         currenciesAdapter?.setItems(currencies)
+        currenciesAdapter?.notifyItemMoved(oldBaseCurrencyPosition, 0)
         view?.scrollToTop()
     }
 
-    override fun onAmountUpdate(items: List<CurrencyItem>) {
-        updateCalculatedCurrencies(items)
+    override fun onCurrenciesRecalculated(currencies: List<CurrencyItem>) {
+        currenciesAdapter?.setItems(currencies)
+        currenciesAdapter?.notifyItemRangeChanged(1, currencies.size, CurrencyHolder.PAYLOAD_AMOUNT_TEXT)
     }
 
     private fun loadRates() {
@@ -83,23 +85,14 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
             .doOnSubscribe {
                 view?.showLoading()
             }
-            .map {
-                model.updateRates(it.rates)
-                model.getCurrencies()
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ items ->
+            .subscribe({
                 view?.hideErrorLoading()
-                updateCalculatedCurrencies(items)
+                model.updateRates(it.rates)
             }, {
                 view?.showError()
                 Tracker.logException(it)
                 clearDisposable()
             })
-    }
-
-    private fun updateCalculatedCurrencies(currencies: List<CurrencyItem>) {
-        currenciesAdapter?.setItems(currencies)
     }
 
     private fun clearDisposable() {

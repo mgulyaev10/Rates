@@ -14,11 +14,6 @@ abstract class ApiRequest<T: ApiResponse>(
 
     protected fun param(name: String, value: String) { params[name] = value }
 
-    fun toBgObservable(): Observable<T> {
-        return toObservable()
-            .observeOn(Schedulers.computation())
-    }
-
     fun toUiObservable(): Observable<T> {
         return toObservable()
             .observeOn(AndroidSchedulers.mainThread())
