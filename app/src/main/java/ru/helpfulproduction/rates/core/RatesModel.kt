@@ -7,7 +7,6 @@ import ru.helpfulproduction.rates.core.cache.CurrenciesCache
 import ru.helpfulproduction.rates.core.calculator.RatesCalculator
 import ru.helpfulproduction.rates.currency.CurrencyHelper
 import ru.helpfulproduction.rates.currency.CurrencyItem
-import ru.helpfulproduction.rates.extensions.divSafe
 import ru.helpfulproduction.rates.extensions.isZero
 import ru.helpfulproduction.rates.extensions.setItemAsFirst
 import ru.helpfulproduction.rates.mvp.RatesContract
@@ -20,19 +19,13 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
     private lateinit var items: List<CurrencyItem>
     private lateinit var baseCurrency: CurrencyItem
 
-    private val baseCurrencyKeyProvider = object: BaseCurrencyKeyProvider {
-        override fun getBaseCurrencyKey(): String {
-            return baseCurrency.key
-        }
-    }
-
     override fun initialize(context: Context?) {
         baseCurrency = Preference.getBaseCurrency(context)
         items = getSortedItems()
     }
 
     override fun loadRates(): Observable<GetRates.GetRatesResponse> {
-        return GetRates(baseCurrencyKeyProvider).toUiObservable()
+        return GetRates(baseCurrency.key).toUiObservable()
     }
 
     override fun updateBaseCurrencyAmount(amountString: String) {

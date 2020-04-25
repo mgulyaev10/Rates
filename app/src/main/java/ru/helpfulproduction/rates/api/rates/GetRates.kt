@@ -1,17 +1,16 @@
 package ru.helpfulproduction.rates.api.rates
 
 import org.json.JSONObject
-import ru.helpfulproduction.rates.core.BaseCurrencyKeyProvider
 import ru.helpfulproduction.rates.api.core.ApiResponse
 import ru.helpfulproduction.rates.api.core.RepeatableApiRequest
 import java.util.concurrent.TimeUnit
 
 class GetRates(
-    private val baseCurrencyKeyProvider: BaseCurrencyKeyProvider
+    baseCurrencyKey: String
 ): RepeatableApiRequest<GetRates.GetRatesResponse> (PERIOD_REQUEST_MILLIS, "latest") {
 
     init {
-        param(PARAM_BASE_CURRENCY, baseCurrencyKeyProvider.getBaseCurrencyKey())
+        param(PARAM_BASE_CURRENCY, baseCurrencyKey)
     }
 
     /**
@@ -33,10 +32,6 @@ class GetRates(
             baseCurrency,
             rates
         )
-    }
-
-    override fun updateParams() {
-        param(PARAM_BASE_CURRENCY, baseCurrencyKeyProvider.getBaseCurrencyKey())
     }
 
     class GetRatesResponse(
