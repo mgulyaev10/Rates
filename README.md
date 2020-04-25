@@ -2,7 +2,7 @@
 
 Simple app calculates current rates of currencies:
 
-<img src="https://s4.gifyu.com/images/animation0ed246957cdab781.md.gif" width="256">
+<img src="https://media.giphy.com/media/gKkaFEbxP1IRBuXvX6/giphy.gif" width="256">
 
 ### Note
 
