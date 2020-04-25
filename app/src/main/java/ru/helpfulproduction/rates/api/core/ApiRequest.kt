@@ -19,6 +19,11 @@ abstract class ApiRequest<T: ApiResponse>(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun toBgObservable(): Observable<T> {
+        return toObservable()
+            .observeOn(Schedulers.computation())
+    }
+
     protected open fun toObservable(): Observable<T> {
         return Observable.create<T> { emitter ->
             try {

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.mvp.BasePresenter
@@ -87,9 +88,14 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
             .doOnSubscribe {
                 view?.showLoading()
             }
+            .map {
+                model.updateRates(it.rates)
+                model.getCurrencies()
+            }
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 view?.hideErrorLoading()
-                model.updateRates(it.rates)
+                currenciesAdapter?.setItems(it)
             }, {
                 view?.showError()
                 Tracker.logException(it)
