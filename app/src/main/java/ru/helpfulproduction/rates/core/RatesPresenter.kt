@@ -74,6 +74,10 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
         view?.scrollToTop()
     }
 
+    override fun onAmountUpdate(items: List<CurrencyItem>) {
+        updateCalculatedCurrencies(items)
+    }
+
     private fun loadRates() {
         disposable = model.loadRates()
             .doOnSubscribe {

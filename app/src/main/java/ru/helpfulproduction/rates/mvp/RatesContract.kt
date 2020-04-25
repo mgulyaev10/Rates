@@ -12,6 +12,7 @@ interface RatesContract {
     interface Presenter<V: View>: BaseContract.Presenter<V> {
         fun getCurrenciesAdapter(): CurrenciesAdapter
         fun onBaseCurrencyChanged(currencies: List<CurrencyItem>, oldBaseCurrencyPosition: Int)
+        fun onAmountUpdate(items: List<CurrencyItem>)
         fun onRetryClick()
         fun onStart()
         fun onStop()
