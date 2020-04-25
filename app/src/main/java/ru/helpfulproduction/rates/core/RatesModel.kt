@@ -83,6 +83,7 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
         }
         newBaseCurrency.rate = 1F
         baseCurrency.amount = baseCurrency.rate * newBaseCurrency.amount
+        setItemsImpl(items)
     }
 
     private fun recalculateItems() {
