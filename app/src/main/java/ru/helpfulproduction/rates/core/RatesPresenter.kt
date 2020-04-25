@@ -30,7 +30,9 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
         }
 
         override fun onCurrencyChanged(newCurrencyPosition: Int) {
+            clearDisposable()
             model.updateBaseCurrency(newCurrencyPosition)
+            loadRates()
         }
     }
 

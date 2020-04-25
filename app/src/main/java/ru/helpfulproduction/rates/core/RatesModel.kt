@@ -6,6 +6,7 @@ import ru.helpfulproduction.rates.api.rates.GetRates
 import ru.helpfulproduction.rates.core.cache.CurrenciesCache
 import ru.helpfulproduction.rates.currency.CurrencyHelper
 import ru.helpfulproduction.rates.currency.CurrencyItem
+import ru.helpfulproduction.rates.extensions.divSafe
 import ru.helpfulproduction.rates.extensions.isZero
 import ru.helpfulproduction.rates.extensions.setItemAsFirst
 import ru.helpfulproduction.rates.mvp.RatesContract
@@ -75,11 +76,12 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
     }
 
     private fun updatePreviousBaseCurrency(newBaseCurrency: CurrencyItem) {
-        baseCurrency.rate = if (newBaseCurrency.rate.isZero()) {
-            0F
-        } else {
-            1F / newBaseCurrency.rate
+        items.forEach {
+            if (it.key != newBaseCurrency.key) {
+                it.rate = it.rate.divSafe(newBaseCurrency.rate)
+            }
         }
+        newBaseCurrency.rate = 1F
         baseCurrency.amount = baseCurrency.rate * newBaseCurrency.amount
     }
 

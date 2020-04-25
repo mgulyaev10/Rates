@@ -9,3 +9,11 @@ fun Float.withoutFractionalPart(): Boolean {
 fun Float.isZero(): Boolean {
     return sign(this) == 0F
 }
+
+fun Float.divSafe(other: Float): Float {
+    return if (other.isZero()) {
+        0F
+    } else {
+        this / other
+    }
+}
