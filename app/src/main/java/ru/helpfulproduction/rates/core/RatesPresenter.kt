@@ -46,6 +46,7 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
     }
 
     override fun detachView() {
+        clearDisposable()
         view = null
     }
 
