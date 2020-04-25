@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 import ru.helpfulproduction.rates.recycler.base.BaseItem
 import ru.helpfulproduction.rates.R
 
-class CurrencyItem(
+data class CurrencyItem(
     @CurrencyKeys.CurrencyKey val key: String,
     @StringRes val titleRes: Int,
     @DrawableRes val imageRes: Int,

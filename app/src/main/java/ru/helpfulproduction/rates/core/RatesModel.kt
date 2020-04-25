@@ -4,6 +4,7 @@ import android.content.Context
 import io.reactivex.rxjava3.core.Observable
 import ru.helpfulproduction.rates.api.rates.GetRates
 import ru.helpfulproduction.rates.core.cache.CurrenciesCache
+import ru.helpfulproduction.rates.core.calculator.RatesCalculator
 import ru.helpfulproduction.rates.currency.CurrencyHelper
 import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.extensions.divSafe
@@ -76,22 +77,15 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
     }
 
     private fun updatePreviousBaseCurrency(newBaseCurrency: CurrencyItem) {
-        items.forEach {
-            if (it.key != newBaseCurrency.key) {
-                it.rate = it.rate.divSafe(newBaseCurrency.rate)
-            }
-        }
-        newBaseCurrency.rate = 1F
+        RatesCalculator.recalculateRates(items, newBaseCurrency)
         baseCurrency.amount = baseCurrency.rate * newBaseCurrency.amount
         setItemsImpl(items)
     }
 
     private fun recalculateItems() {
-        val baseCurrencyAmount = baseCurrency.amount
-        items.forEach {
-            it.amount = baseCurrencyAmount * it.rate
-        }
-        presenter.onCurrenciesRecalculated(items)
+        val recalculatedItems = RatesCalculator.calculateAmounts(items, baseCurrency)
+        setItemsImpl(recalculatedItems)
+        presenter.onCurrenciesRecalculated(recalculatedItems)
     }
 
     private fun setItemsImpl(items: List<CurrencyItem>) {

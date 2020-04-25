@@ -74,13 +74,11 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
 
     override fun onBaseCurrencyChanged(currencies: List<CurrencyItem>, oldBaseCurrencyPosition: Int) {
         currenciesAdapter?.setItems(currencies)
-        currenciesAdapter?.notifyItemMoved(oldBaseCurrencyPosition, 0)
         view?.scrollToTop()
     }
 
     override fun onCurrenciesRecalculated(currencies: List<CurrencyItem>) {
         currenciesAdapter?.setItems(currencies)
-        currenciesAdapter?.notifyItemRangeChanged(1, currencies.size, CurrencyHolder.PAYLOAD_AMOUNT_TEXT)
     }
 
     private fun loadRates() {
