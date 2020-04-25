@@ -10,6 +10,7 @@ import ru.helpfulproduction.rates.currency.CurrencyItem
 import ru.helpfulproduction.rates.mvp.BasePresenter
 import ru.helpfulproduction.rates.log.Tracker
 import ru.helpfulproduction.rates.mvp.RatesContract
+import ru.helpfulproduction.rates.ui.holders.CurrencyHolder
 import ru.helpfulproduction.rates.utils.NetworkState
 
 class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Presenter<RatesContract.View> {
@@ -71,6 +72,7 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
 
     override fun onBaseCurrencyChanged(currencies: List<CurrencyItem>, oldBaseCurrencyPosition: Int) {
         currenciesAdapter?.setItems(currencies)
+        currenciesAdapter?.notifyItemMoved(oldBaseCurrencyPosition, 0)
         view?.scrollToTop()
     }
 
@@ -96,6 +98,7 @@ class RatesPresenter: BasePresenter<RatesContract.View>(), RatesContract.Present
 
     private fun updateCalculatedCurrencies(currencies: List<CurrencyItem>) {
         currenciesAdapter?.setItems(currencies)
+        currenciesAdapter?.notifyItemRangeChanged(1, currencies.size, CurrencyHolder.PAYLOAD_AMOUNT_TEXT)
     }
 
     private fun clearDisposable() {
