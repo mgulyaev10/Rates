@@ -22,6 +22,7 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
     override fun initialize(context: Context?) {
         baseCurrency = Preference.getBaseCurrency(context)
         items = getSortedItems()
+        baseCurrency = items[0]
     }
 
     override fun loadRates(): Observable<GetRates.GetRatesResponse> {

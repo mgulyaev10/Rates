@@ -8,4 +8,4 @@ Simple app calculates current rates of currencies:
 * Also there are some mistakes in API, so if you request currencies with param = INR, you will get wrong result
 
 # **Download**
-http://www.filedropper.com/app-debug_12
+http://www.filedropper.com/app-debug_15
