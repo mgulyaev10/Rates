@@ -30,7 +30,7 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
     }
 
     override fun loadRates(): Observable<GetRates.GetRatesResponse> {
-        return GetRates(baseCurrencyKeyProvider).toBgObservable()
+        return GetRates(baseCurrencyKeyProvider).toUiObservable()
     }
 
     override fun updateBaseCurrencyAmount(amountString: String) {
@@ -88,6 +88,7 @@ class RatesModel<P: RatesContract.Presenter<RatesContract.View>> (
         items.forEach {
             it.amount = baseCurrencyAmount * it.rate
         }
+        presenter.onCurrenciesRecalculated(items)
     }
 
     private fun setItemsImpl(items: List<CurrencyItem>) {
