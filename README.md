@@ -11,3 +11,4 @@ Simple app calculates current rates of currencies:
 
 # **Download**
 http://www.filedropper.com/app-debug_16
+test
